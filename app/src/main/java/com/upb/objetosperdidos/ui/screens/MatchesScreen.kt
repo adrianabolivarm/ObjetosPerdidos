@@ -1,8 +1,8 @@
 package com.upb.objetosperdidos.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,10 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
 private val MatchesBlue = Color(0xFF1689FF)
@@ -110,7 +113,9 @@ fun MatchesScreen() {
                     category = "Electrónica",
                     status = "Nueva coincidencia",
                     statusColor = MatchGreen,
-                    statusBackground = MatchGreenSoft
+                    statusBackground = MatchGreenSoft,
+                    lostImageRes = R.drawable.airpods_pro,
+                    foundImageRes = R.drawable.airpods_pro
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -125,7 +130,9 @@ fun MatchesScreen() {
                     category = "Accesorios",
                     status = "Por revisar",
                     statusColor = MatchOrange,
-                    statusBackground = MatchOrangeSoft
+                    statusBackground = MatchOrangeSoft,
+                    lostImageRes = R.drawable.mochila_negra,
+                    foundImageRes = R.drawable.mochila_negra
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -140,7 +147,9 @@ fun MatchesScreen() {
                     category = "Documentos",
                     status = "Revisada",
                     statusColor = MatchesBlue,
-                    statusBackground = MatchesBlueSoft
+                    statusBackground = MatchesBlueSoft,
+                    lostImageRes = R.drawable.carnet_estudiante,
+                    foundImageRes = R.drawable.carnet_estudiante
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -338,7 +347,9 @@ private fun MatchCard(
     category: String,
     status: String,
     statusColor: Color,
-    statusBackground: Color
+    statusBackground: Color,
+    lostImageRes: Int,
+    foundImageRes: Int
 ) {
 
     Card(
@@ -395,7 +406,8 @@ private fun MatchCard(
                 location = lostLocation,
                 date = lostDate,
                 typeColor = MatchRed,
-                typeBackground = MatchRedSoft
+                typeBackground = MatchRedSoft,
+                imageRes = lostImageRes
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -410,7 +422,8 @@ private fun MatchCard(
                 location = foundLocation,
                 date = foundDate,
                 typeColor = MatchGreen,
-                typeBackground = MatchGreenSoft
+                typeBackground = MatchGreenSoft,
+                imageRes = foundImageRes
             )
 
             Spacer(modifier = Modifier.height(17.dp))
@@ -453,7 +466,8 @@ private fun ObjectMatchSection(
     location: String,
     date: String,
     typeColor: Color,
-    typeBackground: Color
+    typeBackground: Color,
+    imageRes: Int
 ) {
 
     Row(
@@ -461,21 +475,16 @@ private fun ObjectMatchSection(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        Box(
+        Image(
+            painter = painterResource(
+                id = imageRes
+            ),
+            contentDescription = title,
             modifier = Modifier
                 .size(57.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(typeBackground),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Text(
-                text = if (type == "PERDIDO") "?" else "✓",
-                color = typeColor,
-                fontSize = 23.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.Crop
+        )
 
         Spacer(modifier = Modifier.width(12.dp))
 

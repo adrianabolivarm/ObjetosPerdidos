@@ -1,5 +1,6 @@
 package com.upb.objetosperdidos.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,13 +36,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
 private val AzulPrincipal = Color(0xFF1689FF)
@@ -64,7 +67,7 @@ data class PublicacionHomeUi(
     val fecha: String,
     val tipo: String,
     val custodia: String?,
-    val iniciales: String
+    val imagenRes: Int
 )
 
 @Composable
@@ -86,7 +89,7 @@ fun HomeScreen() {
             fecha = "29 Sep 2026",
             tipo = "ENCONTRADO",
             custodia = "En custodia - Biblioteca",
-            iniciales = "AP"
+            imagenRes = R.drawable.airpods_pro
         ),
         PublicacionHomeUi(
             nombre = "Mochila negra",
@@ -95,7 +98,7 @@ fun HomeScreen() {
             fecha = "28 Sep 2026",
             tipo = "PERDIDO",
             custodia = null,
-            iniciales = "MN"
+            imagenRes = R.drawable.mochila_negra
         ),
         PublicacionHomeUi(
             nombre = "Carnet universitario",
@@ -104,7 +107,7 @@ fun HomeScreen() {
             fecha = "27 Sep 2026",
             tipo = "ENCONTRADO",
             custodia = "Con hallador",
-            iniciales = "CU"
+            imagenRes = R.drawable.carnet_estudiante
         )
     )
 
@@ -408,7 +411,7 @@ private fun TarjetaPublicacion(
 
         Column {
 
-            ImagenObjetoSimulada(
+            ImagenObjeto(
                 publicacion = publicacion
             )
 
@@ -526,55 +529,20 @@ private fun TarjetaPublicacion(
 }
 
 @Composable
-private fun ImagenObjetoSimulada(
+private fun ImagenObjeto(
     publicacion: PublicacionHomeUi
 ) {
 
-    val colores = if (publicacion.tipo == "ENCONTRADO") {
-
-        listOf(
-            Color(0xFFDCEEFF),
-            Color(0xFFF2F8FF)
-        )
-
-    } else {
-
-        listOf(
-            Color(0xFFFFEAEA),
-            Color(0xFFFFF7F7)
-        )
-    }
-
-    Box(
+    Image(
+        painter = painterResource(
+            id = publicacion.imagenRes
+        ),
+        contentDescription = publicacion.nombre,
         modifier = Modifier
             .fillMaxWidth()
-            .height(145.dp)
-            .background(
-                Brush.linearGradient(colores)
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-
-        Box(
-            modifier = Modifier
-                .size(82.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(Color.White.copy(alpha = 0.80f)),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Text(
-                text = publicacion.iniciales,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = if (publicacion.tipo == "ENCONTRADO") {
-                    AzulPrincipal
-                } else {
-                    RojoEstado
-                }
-            )
-        }
-    }
+            .height(160.dp),
+        contentScale = ContentScale.Crop
+    )
 }
 
 @Composable

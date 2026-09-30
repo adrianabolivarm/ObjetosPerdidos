@@ -1,7 +1,7 @@
 package com.upb.objetosperdidos.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,12 +28,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
 private val DetailBlue = Color(0xFF1689FF)
@@ -188,32 +190,16 @@ private fun DetailImage() {
         modifier = Modifier
             .fillMaxWidth()
             .height(245.dp)
-            .background(
-                Brush.linearGradient(
-                    listOf(
-                        Color(0xFFDCEEFF),
-                        Color(0xFFF5FAFF)
-                    )
-                )
-            ),
-        contentAlignment = Alignment.Center
     ) {
 
-        Box(
-            modifier = Modifier
-                .size(120.dp)
-                .clip(RoundedCornerShape(32.dp))
-                .background(Color.White.copy(alpha = 0.85f)),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Text(
-                text = "AP",
-                color = DetailBlue,
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Image(
+            painter = painterResource(
+                id = R.drawable.airpods_pro
+            ),
+            contentDescription = "AirPods Pro encontrados",
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
 
         Surface(
             modifier = Modifier
@@ -224,7 +210,7 @@ private fun DetailImage() {
         ) {
 
             Text(
-                text = "1 / 2",
+                text = "1 / 1",
                 modifier = Modifier.padding(
                     horizontal = 10.dp,
                     vertical = 6.dp

@@ -1,5 +1,6 @@
 package com.upb.objetosperdidos.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,10 +28,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
 private val ReportsBlue = Color(0xFF1689FF)
@@ -117,7 +121,8 @@ fun MyReportsScreen() {
                     statusBackground = WarningOrangeSoft,
                     typeColor = LostRed,
                     typeBackground = LostRedSoft,
-                    custody = null
+                    custody = null,
+                    imageRes = R.drawable.mochila_negra
                 )
 
                 Spacer(modifier = Modifier.height(14.dp))
@@ -133,7 +138,8 @@ fun MyReportsScreen() {
                     statusBackground = ReportsBlueSoft,
                     typeColor = FoundGreen,
                     typeBackground = FoundGreenSoft,
-                    custody = "Lo tengo conmigo"
+                    custody = "Lo tengo conmigo",
+                    imageRes = R.drawable.airpods_pro
                 )
 
                 Spacer(modifier = Modifier.height(14.dp))
@@ -149,7 +155,8 @@ fun MyReportsScreen() {
                     statusBackground = FoundGreenSoft,
                     typeColor = FoundGreen,
                     typeBackground = FoundGreenSoft,
-                    custody = "Recepción principal"
+                    custody = "Recepción principal",
+                    imageRes = R.drawable.carnet_estudiante
                 )
 
                 Spacer(modifier = Modifier.height(14.dp))
@@ -165,7 +172,8 @@ fun MyReportsScreen() {
                     statusBackground = FoundGreenSoft,
                     typeColor = LostRed,
                     typeBackground = LostRedSoft,
-                    custody = null
+                    custody = null,
+                    imageRes = R.drawable.calculadora_cientifica
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -195,6 +203,7 @@ private fun MyReportsTopBar() {
                 .background(ReportsBlueSoft),
             contentAlignment = Alignment.Center
         ) {
+
             Text(
                 text = "‹",
                 color = ReportsBlue,
@@ -401,7 +410,8 @@ private fun MyReportCard(
     statusBackground: Color,
     typeColor: Color,
     typeBackground: Color,
-    custody: String?
+    custody: String?,
+    imageRes: Int
 ) {
 
     Card(
@@ -459,21 +469,16 @@ private fun MyReportCard(
                 verticalAlignment = Alignment.Top
             ) {
 
-                Box(
+                Image(
+                    painter = painterResource(
+                        id = imageRes
+                    ),
+                    contentDescription = title,
                     modifier = Modifier
-                        .size(58.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(ReportsBlueSoft),
-                    contentAlignment = Alignment.Center
-                ) {
-
-                    Text(
-                        text = objectSymbol(category),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = ReportsBlue
-                    )
-                }
+                        .size(68.dp)
+                        .clip(RoundedCornerShape(16.dp)),
+                    contentScale = ContentScale.Crop
+                )
 
                 Spacer(modifier = Modifier.width(13.dp))
 
@@ -587,22 +592,6 @@ private fun MyReportCard(
                 }
             }
         }
-    }
-}
-
-private fun objectSymbol(category: String): String {
-
-    return when (category) {
-
-        "Electrónica" -> "⌁"
-
-        "Documentos" -> "▤"
-
-        "Accesorios" -> "▰"
-
-        "Estudio" -> "ƒ"
-
-        else -> "□"
     }
 }
 
