@@ -46,6 +46,7 @@ import com.upb.objetosperdidos.model.MovimientoPuntos
 import com.upb.objetosperdidos.model.TipoMovimientoPuntos
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
+// Definición de colores del módulo de Puntos y Beneficios universitarios
 private val PointsBlue = Color(0xFF1689FF)
 private val PointsBlueSoft = Color(0xFFEAF4FF)
 private val PointsBackground = Color(0xFFF7F7FB)
@@ -62,6 +63,10 @@ private val PointsOrangeSoft = Color(0xFFFFF5E8)
 private val PointsPurple = Color(0xFF7C6CF2)
 private val PointsPurpleSoft = Color(0xFFF0EEFF)
 
+/**
+ * Pantalla de Puntos y Beneficios del Estudiante.
+ * Permite gestionar el saldo de puntos, consultar el catálogo de premios y ver el historial de transacciones.
+ */
 @Composable
 fun PointsBenefitsScreen() {
 
