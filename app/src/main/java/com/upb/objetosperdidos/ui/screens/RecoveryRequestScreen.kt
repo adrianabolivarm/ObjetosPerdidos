@@ -52,6 +52,7 @@ import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.model.EstadoSolicitud
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
+// Paleta de colores oficial para la interfaz de solicitud de recuperación UPB
 private val RequestBlue = Color(0xFF1689FF)
 private val RequestBlueSoft = Color(0xFFEAF4FF)
 private val RequestBackground = Color(0xFFF7F7FB)
@@ -65,6 +66,10 @@ private val RequestGreenSoft = Color(0xFFE8F7F0)
 private val RequestOrange = Color(0xFFF4A340)
 private val RequestOrangeSoft = Color(0xFFFFF5E8)
 
+/**
+ * Pantalla principal para enviar una Solicitud de Recuperación de un objeto perdido.
+ * Permite al estudiante validar su identidad y presentar evidencias de propiedad.
+ */
 @Composable
 fun RecoveryRequestScreen() {
 
