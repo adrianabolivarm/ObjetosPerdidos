@@ -49,6 +49,7 @@ import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.model.EstadoDevolucion
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
+// Constantes de diseño y paleta cromática para el proceso de devolución
 private val ReturnBlue = Color(0xFF1689FF)
 private val ReturnBlueSoft = Color(0xFFEAF4FF)
 private val ReturnBackground = Color(0xFFF7F7FB)
@@ -62,6 +63,10 @@ private val ReturnGreenSoft = Color(0xFFE8F7F0)
 private val ReturnOrange = Color(0xFFF4A340)
 private val ReturnOrangeSoft = Color(0xFFFFF5E8)
 
+/**
+ * Pantalla del Proceso de Devolución e intercambio seguro.
+ * Muestra el seguimiento mediante código QR, linea de tiempo y acreditación de puntos.
+ */
 @Composable
 fun ReturnProcessScreen() {
 
