@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import com.upb.objetosperdidos.R
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
+// Paleta cromática para la interfaz del Panel del Encargado de Custodia
 private val AdminBlue = Color(0xFF1689FF)
 private val AdminBlueSoft = Color(0xFFEAF4FF)
 private val AdminBackground = Color(0xFFF7F7FB)
