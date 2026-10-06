@@ -1,0 +1,116 @@
+  Aquí tienes la lista completa de todos los **prompts** que me has proporcionado en esta sesión, organizados en orden cronológico:
+
+---
+
+### **Prompt 1: Contexto Inicial del Proyecto**
+> Hola A partir de este momento vas a actuar como mi desarrollador y mentor de Jetpack Compose. Por ahora SOLO LEE Y GUARDA ESTE CONTEXTO, NO GENERES CÓDIGO NI SUGIERAS CAMBIOS AÚN.
+>
+> 1. Contexto General del Proyecto
+> Estamos desarrollando la aplicación Android "ObjetosPerdidos" para la u. La app permite a los estudiantes reportar objetos perdidos, encontrar coincidencias (matches) y gestionar la devolución o entrega en puntos de custodia del campus.
+>
+> 2. Mi Rol y Rama de Trabajo
+> - Estoy trabajando en la rama local: `feature/adri-ui`.
+
+> 3. Mis 4 Pantallas Asignadas y sus Funcionalidades:
+> 1. `MatchDetailScreen.kt`: Muestra la comparativa detallada entre un objeto reportado como perdido y uno encontrado por la comunidad (porcentaje de coincidencia, ubicación, categoría y botones para confirmar o rechazar el match).
+> 2. `CustodyScreen.kt`: Gestiona el estado de custodia de un objeto (quién lo tiene, en qué punto físico está guardado, estado de entrega y código de verificación/devolución).
+> 3. `DeliveryPointsScreen.kt`: Lista los puntos de entrega/custodia autorizados dentro del campus (biblioteca, guardias centrales, recepción de bloques) con sus horarios y estados.
+> 4. `DeliveryPointDetailScreen.kt`: Detalle de un punto de entrega específico (mapa/ubicación exacta, encargado, horario de atención y objetos almacenados en ese punto).
+>
+> 4. Design Tokens y Sistema de Diseño (Definidos):
+> - Azul Principal: `#1689FF`
+> - Azul Suave / Fondeo: `#EAF4FF`
+> - Fondo de la App: `#F7F7FB`
+> - Texto Principal: `#181820`
+> - Texto Secundario: `#777783`
+> - Verde Éxito/Estado: `#198754` (Fondo suave `#E8F7F0`)
+> - Tipografía y Estilos: Material3, bordes redondeados (`RoundedCornerShape` entre 16.dp y 22.dp), `Scaffold` para estructura general y `LazyColumn` o `Column` para scroll.
+>
+> 5. Avance del Equipo:
+> Sebas y David ya avanzaron con los modelos de datos, navegación principal (`MainAppNavigator`), autenticación y otras pantallas del flujo. Mis componentes deben acoplarse visual y funcionalmente a lo que ellos ya estructuraron.
+>
+
+---
+
+### **Prompt 2: Implementación de `MatchDetailScreen.kt`**
+> Empecemos con la primera pantalla: `MatchDetailScreen.kt`.
+>
+> Por favor, genera el código completo para esta pantalla respetando los Design Tokens, Material3, Scaffold, LazyColumn y el @Preview. Debe incluir:
+> 1. Encabezado con título "Detalle de Coincidencia" y un badge con el porcentaje (95% Coincidencia).
+> 2. Tarjeta con la comparativa ("Tu reporte" vs "Encontrado por comunidad").
+> 3. Lista de puntos de verificación (Categoría, Ubicación, Fecha, Estado de Custodia).
+> 4. Botones de acción principales ("Confirmar y solicitar devolución" y "No es mi objeto").
+>
+> Genera únicamente el código Kotlin listo para `MatchDetailScreen.kt`.
+
+---
+
+### **Prompt 3: Confirmación de Requisitos para `MatchDetailScreen.kt`**
+> Completa el código fuente de MatchDetailScreen.kt asegurando que incluya el Header, el Badge de porcentaje (95%), la tarjeta comparativa ('Tu reporte' vs 'Encontrado por comunidad'), los puntos de verificación con iconos y los botones de acción ('Confirmar' y 'No es mi objeto'). Asegúrate de incluir el @Preview.
+
+---
+
+### **Prompt 4: Corrección de Iconos en `MatchDetailScreen.kt`**
+> Hay 15 errores de compilación del tipo "Unresolved reference 'icons'". 
+>
+> Por favor, reemplaza en `MatchDetailScreen.kt` el uso de iconos de `Icons.Filled.*` o `Icons.AutoMirrored.*` por composables gráficos simples de Canvas/Box o utiliza únicamente los iconos básicos de Material3 disponibles sin librerías de iconos extendidas (como Icons.Default.Check, Icons.Default.ArrowBack, etc.), para que el archivo compile sin requerir la dependencia 'androidx.compose.material:material-icons-extended'.
+>
+> Corrige únicamente `MatchDetailScreen.kt` y asegúrate de que compile limpiamente.
+
+---
+
+### **Prompt 5: Implementación de `CustodyScreen.kt`**
+> Actúa como desarrollador de Jetpack Compose. Implementa la pantalla `CustodyScreen.kt` en la ruta `app/src/main/java/com/upb/objetosperdidos/ui/screens/CustodyScreen.kt`.
+>
+> Requisitos de la vista:
+> 1. Pantalla de estado de custodia para el usuario que encontró un objeto o gestiona un reporte.
+> 2. Muestra una tarjeta principal con la información del objeto en custodia y un chip de estado ("En custodia temporal").
+> 3. Sección con la ubicación actual del objeto (ej. "Punto Autorizado - Biblioteca Principal").
+> 4. Código QR o código de verificación de entrega para presentar en el punto de custodia.
+> 5. Botón de acción para "Ver puntos de entrega cercanos" y "Cancelar reporte".
+> 6. Utiliza Design Tokens del proyecto y dibuja iconos simples con Canvas o usa los iconos estándar de Material3 para evitar dependencias extendidas y errores de compilación.
+> 7. Agrega el `@Preview` funcional dentro de `ObjetosPerdidosTheme`.
+>
+> Genera únicamente el código completo para `CustodyScreen.kt`.
+
+---
+
+### **Prompt 6: Implementación de `DeliveryPointsScreen.kt`**
+> Ahora Implementa la pantalla `DeliveryPointsScreen.kt` en la ruta `app/src/main/java/com/upb/objetosperdidos/ui/screens/DeliveryPointsScreen.kt`.
+>
+> Requisitos de la vista:
+> 1. Pantalla con el listado de puntos autorizados de entrega y recepción de objetos perdidos en la universidad.
+> 2. Encabezado con botón de retorno y barra/campo de búsqueda ("Buscar punto de entrega...").
+> 3. Lista deslizable de puntos (LazyColumn) con tarjetas que contengan:
+>    - Nombre del punto (ej. "Biblioteca Central", "Caja General", "Portería Principal").
+>    - Horario de atención (ej. "08:00 - 18:00").
+>    - Estado actual (Chip verde "Abierto" / Chip gris "Cerrado").
+>    - Indicador de distancia/ubicación (ej. "Bloque C - Piso 1").
+> 4. Utiliza Design Tokens del proyecto y únicamente componentes gráficos o iconos estándar de Material3 para evitar errores de compilación por librerías faltantes.
+> 5. Agrega el `@Preview` funcional envuelto en `ObjetosPerdidosTheme`.
+>
+> Genera únicamente el código completo para `DeliveryPointsScreen.kt`.
+
+---
+
+### **Prompt 7: Implementación de `DeliveryPointDetailScreen.kt`**
+> Implementa la pantalla `DeliveryPointDetailScreen.kt` en la ruta `app/src/main/java/com/upb/objetosperdidos/ui/screens/DeliveryPointDetailScreen.kt`.
+>
+> Requisitos de la vista:
+> 1. Pantalla de detalle de un punto de entrega autorizado específico.
+> 2. Muestra:
+>    - Nombre del punto de entrega y un mapa conceptual/tarjeta de ubicación.
+>    - Estado actual (Chip verde "Abierto" con horario detallado).
+>    - Ubicación exacta (Edificio, piso, referencia).
+>    - Encargado en turno.
+>    - Lista compacta de objetos resguardados actualmente en este punto.
+>    - Botón de acción principal: "Solicitar entrega en este punto".
+> 3. Usa Design Tokens del proyecto e iconos estándar de Material3/Canvas para no requerir librerías extendidas.
+> 4. Incluye el `@Preview` funcional envuelto en `ObjetosPerdidosTheme`.
+>
+> Genera únicamente el código completo para `DeliveryPointDetailScreen.kt`.
+
+---
+
+### **Prompt 8: Consulta sobre Estructura de Navegación**
+> ¿Existe ya un NavHost, NavController o alguna estructura de navegación (Navigation Compose) implementada en el proyecto o en MainActivity.kt? Revisa el código de MainActivity.kt y dime cómo está configurada la navegación actual y si hay otras ramas o archivos que ya manejen las rutas de las pantallas.
