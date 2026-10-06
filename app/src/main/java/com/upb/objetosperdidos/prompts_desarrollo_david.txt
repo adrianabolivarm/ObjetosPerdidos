@@ -1,0 +1,67 @@
+================================================================================
+  DOCUMENTO DE PROMPTS PROFESIONALES DE DESARROLLO - MÓDULO DAVID SILVA
+  PROYECTO: Objetos Perdidos UPB (Universidad Privada Boliviana)
+  TECNOLOGÍAS: Android, Kotlin, Jetpack Compose, Git / GitHub
+================================================================================
+
+1. REVISIÓN DEL ESTADO DEL REPOSITORIO Y RAMAS
+--------------------------------------------------------------------------------
+"Por favor revisa el estado actual del repositorio Git del proyecto ObjetosPerdidos. Muestra la rama activa y las ramas remotas de los integrantes del equipo para entender la estructura de trabajo."
+
+2. CONFIGURACIÓN Y BASE DE LA RAMA PERSONAL
+--------------------------------------------------------------------------------
+"Sincroniza la rama 'DavidSilva' tomando como punto de partida la rama de integración más reciente ('integracion'), para contar con la estructura base del proyecto Android en Kotlin y la configuración de Jetpack Compose."
+
+3. ANÁLISIS DE REQUISITOS Y DOMINIO DE DATOS
+--------------------------------------------------------------------------------
+"Revisa la arquitectura del dominio de la aplicación 'Objetos Perdidos UPB' y los requisitos para mi módulo UI. Debo implementar 4 pantallas: Solicitud de Recuperación, Proceso de Devolución, Puntos y Beneficios, y el Panel del Encargado de Custodia."
+
+4. DESARROLLO PANTALLA 1: SOLICITUD DE RECUPERACIÓN
+--------------------------------------------------------------------------------
+"Diseña la pantalla 'RecoveryRequestScreen.kt' en Jetpack Compose. Debe incluir la tarjeta del objeto objetivo, datos del estudiante solicitante, un campo para detallar pruebas de propiedad (marcas, número de serie), la opción de adjuntar comprobantes y la selección del método de entrega (Punto Oficial UPB o Entrega Directa)."
+
+5. DESARROLLO PANTALLA 2: PROCESO DE DEVOLUCIÓN
+--------------------------------------------------------------------------------
+"Implementa 'ReturnProcessScreen.kt'. Debe contar con una línea de tiempo interactiva de la devolución, un generador visual de código QR de verificación (PIN DEV-8921-UPB), resumen de la transacción entre propietario y hallador, y la notificación del otorgamiento de +30 Puntos UPB por honestidad."
+
+6. DESARROLLO PANTALLA 3: PUNTOS Y BENEFICIOS UPB
+--------------------------------------------------------------------------------
+"Crea la pantalla 'PointsBenefitsScreen.kt'. Muestra una tarjeta Hero con el saldo de puntos del estudiante (180 pts), su rango ('Estudiante Solidario ⭐'), un catálogo de beneficios canjeables en la universidad (Cafetería, Impresiones, Parqueadero), historial de movimientos y la generación del código de cupón al canjear."
+
+7. DESARROLLO PANTALLA 4: PANEL DEL ENCARGADO DE CUSTODIA
+--------------------------------------------------------------------------------
+"Construye 'CustodianDashboardScreen.kt' para el encargado oficial del Punto de Entrega UPB. Debe incluir un panel de métricas (objetos en custodia, solicitudes pendientes, entregas del día), un buscador por código de estudiante/objeto, filtros por estado y acciones para aprobar o rechazar solicitudes de recuperación."
+
+8. ALINEACIÓN DEL SISTEMA DE DISEÑO Y ESTILOS UPB
+--------------------------------------------------------------------------------
+"Asegúrate de que las 4 pantallas mantengan estricta consistencia visual con el sistema de diseño del proyecto: uso del azul institucional UPB (#1689FF), tarjetas con bordes redondeados (20dp/22dp), estados cromáticos (verde para éxito, naranja para pendiente) y tipografía uniforme."
+
+9. ORGANIZACIÓN Y LIMPIEZA DE CARPETA UI DE LA RAMA
+--------------------------------------------------------------------------------
+"Organiza la carpeta 'ui/screens/' en la rama 'DavidSilva' para que contenga de forma exclusiva mis 4 pantallas asignadas, garantizando independencia modular antes de realizar cualquier fusión."
+
+10. AUDITORÍA DE CORRESPONDENCIA CON EL DIAGRAMA UML
+--------------------------------------------------------------------------------
+"Compara las clases del paquete 'model/' contra el archivo 'diagrama_clases.png' para validar la presencia de las 10 entidades principales del dominio (Estudiante, Publicacion, ObjetoReportado, SolicitudRecuperacion, Coincidencia, Devolucion, Custodia, PuntoEntrega, Encargado, Sede) y los modelos de gamificación."
+
+11. ESTRATEGIA DE MICRO-COMMITS ESTRUCTURADOS (CONVENTIONAL COMMITS)
+--------------------------------------------------------------------------------
+"Organiza los avances en una serie de commits limpios y profesionales usando la convención Conventional Commits (feat, refactor, style, docs, fix, chore) y publica los cambios en la rama remota 'origin/DavidSilva' en GitHub."
+
+12. INTEGRACIÓN MODULAR EN LA RAMA 'INTEGRACION'
+--------------------------------------------------------------------------------
+"Cámbiate a la rama 'integracion', sincronízala con 'origin/integracion' y realiza la fusión (merge) de la rama 'DavidSilva'. Asegúrate de conservar la base compartida del proyecto sin afectar el trabajo de los demás integrantes."
+
+13. RESOLUCIÓN DE CONFIGURACIÓN DE ENTORNO GRADLE Y SSL EN WINDOWS
+--------------------------------------------------------------------------------
+"Configura la propiedad '-Djavax.net.ssl.trustStoreType=JKS' en 'gradle.properties' para solucionar el problema de compatibilidad con el almacén de certificados SSL de Windows durante la sincronización de Gradle en Android Studio."
+
+14. VERIFICACIÓN Y COMPILACIÓN DEL PROYECTO (ASSEMBLEDEBUG)
+--------------------------------------------------------------------------------
+"Ejecuta la tarea de compilación './gradlew assembleDebug' para verificar que no existan errores de sintaxis o dependencias y confirmar que la salida sea 'BUILD SUCCESSFUL'."
+
+15. NAVEGADOR INTERACTIVO EN MAINACTIVITY PARA PRUEBAS EN EMULADOR
+--------------------------------------------------------------------------------
+"Actualiza 'MainActivity.kt' agregando una barra de navegación inferior con pestañas para interactuar y alternar dinámicamente entre mis 4 pantallas al presionar el botón de ejecución (Play ▶) en el emulador o dispositivo."
+
+================================================================================
