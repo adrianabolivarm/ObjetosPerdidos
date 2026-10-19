@@ -321,14 +321,14 @@ private fun VerificationPointsSection() {
             VerificationItem(
                 icon = { CategoryIcon(tint = PrimaryBlue) },
                 label = "Categoría",
-                value = "Electrónicos / Audífonos",
+                value = "Electrodomesticos / celulares",
                 isMatch = true
             )
 
             VerificationItem(
                 icon = { LocationIcon(tint = PrimaryBlue) },
                 label = "Ubicación",
-                value = "Biblioteca Principal - Piso 2",
+                value = "El alto ",
                 isMatch = true
             )
 
@@ -342,7 +342,7 @@ private fun VerificationPointsSection() {
             VerificationItem(
                 icon = { ShieldIcon(tint = PrimaryBlue) },
                 label = "Estado de Custodia",
-                value = "En Punto Autorizado (Biblioteca)",
+                value = "Achocalla",
                 isMatch = true,
                 isLast = true
             )
@@ -476,14 +476,14 @@ private fun BackArrowIcon(
     tint: Color,
     modifier: Modifier = Modifier
 ) {
-    Canvas(modifier = modifier.size(18.dp)) {
+    Canvas(modifier = modifier.size(20.dp)) {
         val w = size.width
         val h = size.height
-        val strokeWidth = 2.2.dp.toPx()
+        val strokeWidth = 3.dp.toPx()
 
         drawLine(
             color = tint,
-            start = Offset(w * 0.85f, h * 0.5f),
+            start = Offset(w * 0.5f, h * 0.5f),
             end = Offset(w * 0.15f, h * 0.5f),
             strokeWidth = strokeWidth,
             cap = StrokeCap.Round
