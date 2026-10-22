@@ -27,6 +27,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
+import com.upb.objetosperdidos.ui.viewmodel.ReportesViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 private val ReportBlue = Color(0xFF1689FF)
 private val ReportBlueSoft = Color(0xFFEAF4FF)
@@ -45,7 +51,17 @@ private val ReportTextSecondary = Color(0xFF777783)
 private val ReportBorder = Color(0xFFE3E3EA)
 
 @Composable
-fun ReportObjectScreen() {
+fun ReportObjectScreen(
+    viewModel: ReportesViewModel = viewModel(),
+    onBackClick: () -> Unit = {},
+    onReportCreated: () -> Unit = {}
+) {
+    var tipoReporte by remember { mutableStateOf("ENCONTRADO") }
+    var titulo by remember { mutableStateOf("") }
+    var categoria by remember { mutableStateOf("Tecnología") }
+    var descripcion by remember { mutableStateOf("") }
+    var lugar by remember { mutableStateOf("") }
+    var fecha by remember { mutableStateOf("30 / 09 / 2026") }
 
     Scaffold(
         containerColor = ReportBackground
@@ -58,7 +74,7 @@ fun ReportObjectScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
 
-            ReportTopBar()
+            ReportTopBar(onBackClick = onBackClick)
 
             Column(
                 modifier = Modifier.padding(
@@ -76,7 +92,10 @@ fun ReportObjectScreen() {
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                TypeSelector()
+                TypeSelector(
+                    selectedType = tipoReporte,
+                    onTypeSelected = { tipoReporte = it }
+                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -98,18 +117,58 @@ fun ReportObjectScreen() {
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                ReportField(
-                    label = "Título del objeto",
-                    placeholder = "Ej. AirPods Pro"
+                OutlinedTextField(
+                    value = titulo,
+                    onValueChange = { titulo = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Título del objeto") },
+                    placeholder = { Text("Ej. AirPods Pro") },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = ReportBlue,
+                        unfocusedBorderColor = ReportBorder,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                CategoryField()
+                OutlinedTextField(
+                    value = categoria,
+                    onValueChange = { categoria = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Categoría") },
+                    placeholder = { Text("Ej. Tecnología, Accesorios...") },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = ReportBlue,
+                        unfocusedBorderColor = ReportBorder,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White
+                    )
+                )
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                DescriptionField()
+                OutlinedTextField(
+                    value = descripcion,
+                    onValueChange = { descripcion = it },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp),
+                    label = { Text("Descripción") },
+                    placeholder = { Text("Describe color, marca, características...") },
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = ReportBlue,
+                        unfocusedBorderColor = ReportBorder,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White
+                    )
+                )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -120,16 +179,38 @@ fun ReportObjectScreen() {
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                ReportField(
-                    label = "Lugar",
-                    placeholder = "Ej. Biblioteca Central"
+                OutlinedTextField(
+                    value = lugar,
+                    onValueChange = { lugar = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Lugar") },
+                    placeholder = { Text("Ej. Biblioteca Central") },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = ReportBlue,
+                        unfocusedBorderColor = ReportBorder,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                ReportField(
-                    label = "Fecha del hallazgo",
-                    placeholder = "30 / 09 / 2026"
+                OutlinedTextField(
+                    value = fecha,
+                    onValueChange = { fecha = it },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Fecha del hallazgo / pérdida") },
+                    placeholder = { Text("30 / 09 / 2026") },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedBorderColor = ReportBlue,
+                        unfocusedBorderColor = ReportBorder,
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White
+                    )
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -150,7 +231,19 @@ fun ReportObjectScreen() {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = {},
+                    onClick = {
+                        if (titulo.isNotBlank()) {
+                            viewModel.agregarObjeto(
+                                nombre = titulo,
+                                descripcion = descripcion,
+                                categoria = categoria,
+                                tipoReporte = tipoReporte,
+                                lugar = lugar.ifBlank { "Campus UPB" },
+                                fecha = fecha
+                            )
+                            onReportCreated()
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(56.dp),
@@ -175,7 +268,7 @@ fun ReportObjectScreen() {
 }
 
 @Composable
-private fun ReportTopBar() {
+private fun ReportTopBar(onBackClick: () -> Unit) {
 
     Row(
         modifier = Modifier
@@ -192,7 +285,8 @@ private fun ReportTopBar() {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(ReportBlueSoft),
+                .background(ReportBlueSoft)
+                .clickable { onBackClick() },
             contentAlignment = Alignment.Center
         ) {
 
@@ -225,7 +319,10 @@ private fun ReportTopBar() {
 }
 
 @Composable
-private fun TypeSelector() {
+private fun TypeSelector(
+    selectedType: String,
+    onTypeSelected: (String) -> Unit
+) {
 
     Row(
         modifier = Modifier
@@ -238,10 +335,10 @@ private fun TypeSelector() {
         Surface(
             modifier = Modifier
                 .weight(1f)
-                .clickable { },
+                .clickable { onTypeSelected("ENCONTRADO") },
             shape = RoundedCornerShape(15.dp),
-            color = ReportBlue,
-            shadowElevation = 2.dp
+            color = if (selectedType == "ENCONTRADO") ReportBlue else Color.Transparent,
+            shadowElevation = if (selectedType == "ENCONTRADO") 2.dp else 0.dp
         ) {
 
             Box(
@@ -251,7 +348,7 @@ private fun TypeSelector() {
 
                 Text(
                     text = "Encontré",
-                    color = Color.White,
+                    color = if (selectedType == "ENCONTRADO") Color.White else ReportTextSecondary,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp
                 )
@@ -263,9 +360,10 @@ private fun TypeSelector() {
         Surface(
             modifier = Modifier
                 .weight(1f)
-                .clickable { },
+                .clickable { onTypeSelected("PERDIDO") },
             shape = RoundedCornerShape(15.dp),
-            color = Color.Transparent
+            color = if (selectedType == "PERDIDO") ReportBlue else Color.Transparent,
+            shadowElevation = if (selectedType == "PERDIDO") 2.dp else 0.dp
         ) {
 
             Box(
@@ -275,7 +373,7 @@ private fun TypeSelector() {
 
                 Text(
                     text = "Perdí",
-                    color = ReportTextSecondary,
+                    color = if (selectedType == "PERDIDO") Color.White else ReportTextSecondary,
                     fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp
                 )
@@ -390,138 +488,6 @@ private fun PhotoOption(
                 fontSize = 11.sp
             )
         }
-    }
-}
-
-@Composable
-private fun ReportField(
-    label: String,
-    placeholder: String
-) {
-
-    Column {
-
-        Text(
-            text = label,
-            modifier = Modifier.padding(start = 3.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = ReportTextSecondary
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-
-                Text(
-                    text = placeholder,
-                    color = Color(0xFFA2A0AA)
-                )
-            },
-            singleLine = true,
-            shape = RoundedCornerShape(16.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = ReportBlue,
-                unfocusedBorderColor = ReportBorder,
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
-            )
-        )
-    }
-}
-
-@Composable
-private fun CategoryField() {
-
-    Column {
-
-        Text(
-            text = "Categoría",
-            modifier = Modifier.padding(start = 3.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = ReportTextSecondary
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = Color.White,
-            shape = RoundedCornerShape(16.dp),
-            border = androidx.compose.foundation.BorderStroke(
-                width = 1.dp,
-                color = ReportBorder
-            )
-        ) {
-
-            Row(
-                modifier = Modifier.padding(
-                    horizontal = 16.dp,
-                    vertical = 17.dp
-                ),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                Text(
-                    text = "Seleccionar categoría",
-                    color = Color(0xFFA2A0AA),
-                    fontSize = 14.sp
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = "⌄",
-                    color = ReportTextSecondary,
-                    fontSize = 19.sp
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun DescriptionField() {
-
-    Column {
-
-        Text(
-            text = "Descripción",
-            modifier = Modifier.padding(start = 3.dp),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = ReportTextSecondary
-        )
-
-        Spacer(modifier = Modifier.height(6.dp))
-
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(120.dp),
-            placeholder = {
-
-                Text(
-                    text = "Describe color, marca, características o detalles que ayuden a identificarlo...",
-                    color = Color(0xFFA2A0AA),
-                    fontSize = 13.sp
-                )
-            },
-            shape = RoundedCornerShape(16.dp),
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = ReportBlue,
-                unfocusedBorderColor = ReportBorder,
-                focusedContainerColor = Color.White,
-                unfocusedContainerColor = Color.White
-            )
-        )
     }
 }
 

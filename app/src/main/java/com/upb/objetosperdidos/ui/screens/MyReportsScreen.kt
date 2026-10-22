@@ -24,6 +24,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,7 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.upb.objetosperdidos.R
+import com.upb.objetosperdidos.model.ObjetoReportado
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
+import com.upb.objetosperdidos.ui.viewmodel.ReportesViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 private val ReportsBlue = Color(0xFF1689FF)
 private val ReportsBlueSoft = Color(0xFFEAF4FF)
@@ -54,7 +59,11 @@ private val WarningOrange = Color(0xFFF4A340)
 private val WarningOrangeSoft = Color(0xFFFFF5E8)
 
 @Composable
-fun MyReportsScreen() {
+fun MyReportsScreen(
+    viewModel: ReportesViewModel = viewModel(),
+    onBackClick: () -> Unit = {}
+) {
+    val objetos by viewModel.objetos.collectAsState()
 
     Scaffold(
         containerColor = ReportsBackground
@@ -67,7 +76,7 @@ fun MyReportsScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
 
-            MyReportsTopBar()
+            MyReportsTopBar(onBackClick = onBackClick)
 
             Column(
                 modifier = Modifier.padding(
@@ -85,7 +94,7 @@ fun MyReportsScreen() {
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                ReportsSummary()
+                ReportsSummary(totalCount = objetos.size)
 
                 Spacer(modifier = Modifier.height(24.dp))
 
@@ -110,71 +119,52 @@ fun MyReportsScreen() {
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                MyReportCard(
-                    type = "PERDIDO",
-                    title = "Mochila negra",
-                    category = "Accesorios",
-                    location = "Bloque B - Aula 204",
-                    date = "28 sep. 2026",
-                    status = "Buscando coincidencias",
-                    statusColor = WarningOrange,
-                    statusBackground = WarningOrangeSoft,
-                    typeColor = LostRed,
-                    typeBackground = LostRedSoft,
-                    custody = null,
-                    imageRes = R.drawable.mochila_negra
-                )
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                MyReportCard(
-                    type = "ENCONTRADO",
-                    title = "AirPods Pro",
-                    category = "Electrónica",
-                    location = "Biblioteca Central",
-                    date = "27 sep. 2026",
-                    status = "Posible coincidencia",
-                    statusColor = ReportsBlue,
-                    statusBackground = ReportsBlueSoft,
-                    typeColor = FoundGreen,
-                    typeBackground = FoundGreenSoft,
-                    custody = "Lo tengo conmigo",
-                    imageRes = R.drawable.airpods_pro
-                )
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                MyReportCard(
-                    type = "ENCONTRADO",
-                    title = "Carnet universitario",
-                    category = "Documentos",
-                    location = "Cafetería",
-                    date = "24 sep. 2026",
-                    status = "En custodia",
-                    statusColor = FoundGreen,
-                    statusBackground = FoundGreenSoft,
-                    typeColor = FoundGreen,
-                    typeBackground = FoundGreenSoft,
-                    custody = "Recepción principal",
-                    imageRes = R.drawable.carnet_estudiante
-                )
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                MyReportCard(
-                    type = "PERDIDO",
-                    title = "Calculadora científica",
-                    category = "Estudio",
-                    location = "Laboratorio 3",
-                    date = "19 sep. 2026",
-                    status = "Recuperado",
-                    statusColor = FoundGreen,
-                    statusBackground = FoundGreenSoft,
-                    typeColor = LostRed,
-                    typeBackground = LostRedSoft,
-                    custody = null,
-                    imageRes = R.drawable.calculadora_cientifica
-                )
+                if (objetos.isEmpty()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(18.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(24.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "No hay reportes guardados aún",
+                                fontWeight = FontWeight.Bold,
+                                color = ReportsTextPrimary,
+                                fontSize = 14.sp
+                            )
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = "Los objetos que reportes aparecerán aquí guardados localmente.",
+                                color = ReportsTextSecondary,
+                                fontSize = 12.sp
+                            )
+                        }
+                    }
+                } else {
+                    objetos.forEach { objeto ->
+                        val isPerdido = objeto.tipoReporte == "PERDIDO"
+                        MyReportCard(
+                            type = objeto.tipoReporte,
+                            title = objeto.nombre,
+                            category = objeto.categoria,
+                            location = objeto.lugar,
+                            date = objeto.fecha,
+                            status = if (isPerdido) "Buscando coincidencias" else "En custodia",
+                            statusColor = if (isPerdido) WarningOrange else FoundGreen,
+                            statusBackground = if (isPerdido) WarningOrangeSoft else FoundGreenSoft,
+                            typeColor = if (isPerdido) LostRed else FoundGreen,
+                            typeBackground = if (isPerdido) LostRedSoft else FoundGreenSoft,
+                            custody = if (isPerdido) null else "Lo tengo conmigo",
+                            imageRes = objeto.imagenRes ?: R.drawable.mochila_negra
+                        )
+                        Spacer(modifier = Modifier.height(14.dp))
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(30.dp))
             }
@@ -183,7 +173,7 @@ fun MyReportsScreen() {
 }
 
 @Composable
-private fun MyReportsTopBar() {
+private fun MyReportsTopBar(onBackClick: () -> Unit) {
 
     Row(
         modifier = Modifier
@@ -200,7 +190,8 @@ private fun MyReportsTopBar() {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(ReportsBlueSoft),
+                .background(ReportsBlueSoft)
+                .clickable { onBackClick() },
             contentAlignment = Alignment.Center
         ) {
 
@@ -233,7 +224,7 @@ private fun MyReportsTopBar() {
 }
 
 @Composable
-private fun ReportsSummary() {
+private fun ReportsSummary(totalCount: Int) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -242,7 +233,7 @@ private fun ReportsSummary() {
 
         SummaryCard(
             modifier = Modifier.weight(1f),
-            number = "4",
+            number = totalCount.toString(),
             label = "Total",
             color = ReportsBlue,
             background = ReportsBlueSoft
