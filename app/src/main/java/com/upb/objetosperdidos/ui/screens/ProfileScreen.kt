@@ -52,7 +52,12 @@ private val ProfilePurple = Color(0xFF7C6CF2)
 private val ProfilePurpleSoft = Color(0xFFF0EEFF)
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    onMyReportsClick: () -> Unit = {},
+    onMatchesClick: () -> Unit = {},
+    onPointsBenefitsClick: () -> Unit = {},
+    onCustodianDashboardClick: () -> Unit = {}
+) {
 
     Scaffold(
         containerColor = ProfileBackground
@@ -151,7 +156,12 @@ fun ProfileScreen() {
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                AccountOptions()
+                AccountOptions(
+                    onMyReportsClick = onMyReportsClick,
+                    onMatchesClick = onMatchesClick,
+                    onPointsBenefitsClick = onPointsBenefitsClick,
+                    onCustodianDashboardClick = onCustodianDashboardClick
+                )
 
                 Spacer(modifier = Modifier.height(28.dp))
 
@@ -610,7 +620,12 @@ private fun BenefitCard(
 }
 
 @Composable
-private fun AccountOptions() {
+private fun AccountOptions(
+    onMyReportsClick: () -> Unit = {},
+    onMatchesClick: () -> Unit = {},
+    onPointsBenefitsClick: () -> Unit = {},
+    onCustodianDashboardClick: () -> Unit = {}
+) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -628,7 +643,8 @@ private fun AccountOptions() {
             AccountOption(
                 symbol = "R",
                 title = "Mis reportes",
-                subtitle = "Consulta tus publicaciones"
+                subtitle = "Consulta tus publicaciones",
+                onClick = onMyReportsClick
             )
 
             AccountDivider()
@@ -636,23 +652,26 @@ private fun AccountOptions() {
             AccountOption(
                 symbol = "C",
                 title = "Coincidencias",
-                subtitle = "Revisa posibles objetos encontrados"
+                subtitle = "Revisa posibles objetos encontrados",
+                onClick = onMatchesClick
             )
 
             AccountDivider()
 
             AccountOption(
-                symbol = "H",
-                title = "Historial de puntos",
-                subtitle = "Movimientos y canjes realizados"
+                symbol = "P",
+                title = "Puntos y Beneficios",
+                subtitle = "Saldo de puntos y recompensas UPB",
+                onClick = onPointsBenefitsClick
             )
 
             AccountDivider()
 
             AccountOption(
-                symbol = "?",
-                title = "Ayuda",
-                subtitle = "Información sobre la aplicación"
+                symbol = "E",
+                title = "Panel del Encargado",
+                subtitle = "Administración de Punto de Entrega",
+                onClick = onCustodianDashboardClick
             )
         }
     }
@@ -662,13 +681,14 @@ private fun AccountOptions() {
 private fun AccountOption(
     symbol: String,
     title: String,
-    subtitle: String
+    subtitle: String,
+    onClick: () -> Unit = {}
 ) {
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onClick() }
             .padding(
                 horizontal = 15.dp,
                 vertical = 14.dp

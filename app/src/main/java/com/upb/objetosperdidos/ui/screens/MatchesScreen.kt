@@ -55,7 +55,10 @@ private val MatchOrange = Color(0xFFF4A340)
 private val MatchOrangeSoft = Color(0xFFFFF5E8)
 
 @Composable
-fun MatchesScreen() {
+fun MatchesScreen(
+    onMatchClick: () -> Unit = {},
+    onBackClick: () -> Unit = {}
+) {
 
     Scaffold(
         containerColor = MatchesBackground
@@ -68,7 +71,7 @@ fun MatchesScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
 
-            MatchesTopBar()
+            MatchesTopBar(onBackClick = onBackClick)
 
             Column(
                 modifier = Modifier.padding(
@@ -115,7 +118,8 @@ fun MatchesScreen() {
                     statusColor = MatchGreen,
                     statusBackground = MatchGreenSoft,
                     lostImageRes = R.drawable.airpods_pro,
-                    foundImageRes = R.drawable.airpods_pro
+                    foundImageRes = R.drawable.airpods_pro,
+                    onMatchClick = onMatchClick
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -132,7 +136,8 @@ fun MatchesScreen() {
                     statusColor = MatchOrange,
                     statusBackground = MatchOrangeSoft,
                     lostImageRes = R.drawable.mochila_negra,
-                    foundImageRes = R.drawable.mochila_negra
+                    foundImageRes = R.drawable.mochila_negra,
+                    onMatchClick = onMatchClick
                 )
 
                 Spacer(modifier = Modifier.height(15.dp))
@@ -149,7 +154,8 @@ fun MatchesScreen() {
                     statusColor = MatchesBlue,
                     statusBackground = MatchesBlueSoft,
                     lostImageRes = R.drawable.carnet_estudiante,
-                    foundImageRes = R.drawable.carnet_estudiante
+                    foundImageRes = R.drawable.carnet_estudiante,
+                    onMatchClick = onMatchClick
                 )
 
                 Spacer(modifier = Modifier.height(30.dp))
@@ -159,7 +165,9 @@ fun MatchesScreen() {
 }
 
 @Composable
-private fun MatchesTopBar() {
+private fun MatchesTopBar(
+    onBackClick: () -> Unit = {}
+) {
 
     Row(
         modifier = Modifier
@@ -176,7 +184,8 @@ private fun MatchesTopBar() {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(MatchesBlueSoft),
+                .background(MatchesBlueSoft)
+                .clickable { onBackClick() },
             contentAlignment = Alignment.Center
         ) {
 
@@ -349,7 +358,8 @@ private fun MatchCard(
     statusColor: Color,
     statusBackground: Color,
     lostImageRes: Int,
-    foundImageRes: Int
+    foundImageRes: Int,
+    onMatchClick: () -> Unit = {}
 ) {
 
     Card(
@@ -438,7 +448,7 @@ private fun MatchCard(
             Spacer(modifier = Modifier.height(14.dp))
 
             Button(
-                onClick = {},
+                onClick = onMatchClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp),

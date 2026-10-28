@@ -2,6 +2,7 @@ package com.upb.objetosperdidos.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -49,7 +50,10 @@ private val DetailGreen = Color(0xFF198754)
 private val DetailGreenBackground = Color(0xFFE8F7F0)
 
 @Composable
-fun PublicationDetailScreen() {
+fun PublicationDetailScreen(
+    onBackClick: () -> Unit = {},
+    onRequestRecoveryClick: () -> Unit = {}
+) {
 
     Scaffold(
         containerColor = DetailBackground
@@ -62,7 +66,7 @@ fun PublicationDetailScreen() {
                 .verticalScroll(rememberScrollState())
         ) {
 
-            DetailTopBar()
+            DetailTopBar(onBackClick = onBackClick)
 
             DetailImage()
 
@@ -108,7 +112,7 @@ fun PublicationDetailScreen() {
                 Spacer(modifier = Modifier.height(24.dp))
 
                 Button(
-                    onClick = {},
+                    onClick = onRequestRecoveryClick,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(54.dp),
@@ -143,7 +147,9 @@ fun PublicationDetailScreen() {
 }
 
 @Composable
-private fun DetailTopBar() {
+private fun DetailTopBar(
+    onBackClick: () -> Unit = {}
+) {
 
     Row(
         modifier = Modifier
@@ -160,7 +166,8 @@ private fun DetailTopBar() {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(DetailBlueSoft),
+                .background(DetailBlueSoft)
+                .clickable { onBackClick() },
             contentAlignment = Alignment.Center
         ) {
 

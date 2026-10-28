@@ -71,7 +71,10 @@ data class PublicacionHomeUi(
 )
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onPublicacionClick: (PublicacionHomeUi) -> Unit = {},
+    onProfileClick: () -> Unit = {}
+) {
 
     var busqueda by remember {
         mutableStateOf("")
@@ -146,7 +149,7 @@ fun HomeScreen() {
         ) {
 
             item {
-                EncabezadoHome()
+                EncabezadoHome(onProfileClick = onProfileClick)
             }
 
             item {
@@ -204,7 +207,8 @@ fun HomeScreen() {
             items(publicacionesFiltradas) { publicacion ->
 
                 TarjetaPublicacion(
-                    publicacion = publicacion
+                    publicacion = publicacion,
+                    onClick = { onPublicacionClick(publicacion) }
                 )
             }
 
@@ -256,7 +260,9 @@ fun HomeScreen() {
 }
 
 @Composable
-private fun EncabezadoHome() {
+private fun EncabezadoHome(
+    onProfileClick: () -> Unit = {}
+) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -287,7 +293,8 @@ private fun EncabezadoHome() {
             modifier = Modifier
                 .size(48.dp)
                 .clip(CircleShape)
-                .background(AzulSuave),
+                .background(AzulSuave)
+                .clickable { onProfileClick() },
             contentAlignment = Alignment.Center
         ) {
 
@@ -395,11 +402,14 @@ private fun FiltrosHome(
 
 @Composable
 private fun TarjetaPublicacion(
-    publicacion: PublicacionHomeUi
+    publicacion: PublicacionHomeUi,
+    onClick: () -> Unit = {}
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(22.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
