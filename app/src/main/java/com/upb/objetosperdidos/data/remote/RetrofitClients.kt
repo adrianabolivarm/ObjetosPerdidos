@@ -19,4 +19,12 @@ object RetrofitClients {
             .build()
             .create(ImgBBApiService::class.java)
     }
+
+    val sqliteCloudApi: SqliteCloudApiService by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://ctntquqjvk.g5.sqlite.cloud/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(SqliteCloudApiService::class.java)
+    }
 }
