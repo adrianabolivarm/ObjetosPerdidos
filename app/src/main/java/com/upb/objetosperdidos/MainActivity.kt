@@ -34,11 +34,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.runtime.collectAsState
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.upb.objetosperdidos.ui.screens.CustodianDashboardScreen
 import com.upb.objetosperdidos.ui.screens.CustodyScreen
 import com.upb.objetosperdidos.ui.screens.DeliveryPointDetailScreen
 import com.upb.objetosperdidos.ui.screens.DeliveryPointsScreen
 import com.upb.objetosperdidos.ui.screens.HomeScreen
+import com.upb.objetosperdidos.ui.screens.LoginScreen
 import com.upb.objetosperdidos.ui.screens.MatchDetailScreen
 import com.upb.objetosperdidos.ui.screens.MatchesScreen
 import com.upb.objetosperdidos.ui.screens.MyReportsScreen
@@ -48,6 +51,7 @@ import com.upb.objetosperdidos.ui.screens.PublicationDetailScreen
 import com.upb.objetosperdidos.ui.screens.RecoveryRequestScreen
 import com.upb.objetosperdidos.ui.screens.ReportObjectScreen
 import com.upb.objetosperdidos.ui.screens.ReturnProcessScreen
+import com.upb.objetosperdidos.ui.viewmodel.AuthViewModel
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 
 // Colores institucionales de la aplicación UPB
@@ -79,7 +83,15 @@ private enum class TabPrincipal {
 }
 
 @Composable
-fun MainAppNavigator() {
+fun MainAppNavigator(authViewModel: AuthViewModel = viewModel()) {
+
+    val usuario by authViewModel.usuarioActual.collectAsState()
+    val haySesion = usuario != null
+
+    if (!haySesion) {
+        LoginScreen(viewModel = authViewModel)
+        return
+    }
 
     // Estado del tab activo en la barra inferior
     var tabActivo by remember {
@@ -188,6 +200,9 @@ fun MainAppNavigator() {
                             },
                             onCustodianDashboardClick = {
                                 subPantallaActiva = "PANEL_ENCARGADO"
+                            },
+                            onCerrarSesion = {
+                                authViewModel.logout()
                             }
                         )
                     }

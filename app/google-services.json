@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "717508264213",
+    "project_id": "objetosperdidos-upb-adri",
+    "storage_bucket": "objetosperdidos-upb-adri.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717508264213:android:3646119256d3299e6be91c",
+        "android_client_info": {
+          "package_name": "com.upb.objetosperdidos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxHAVuwICS9FvXqCZQWyy8QIjopQVUBhw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
