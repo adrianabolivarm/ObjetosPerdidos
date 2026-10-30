@@ -129,10 +129,7 @@ fun HomeScreen(
     }
 
     Scaffold(
-        containerColor = FondoApp,
-        bottomBar = {
-            BarraNavegacionInferior()
-        }
+        containerColor = FondoApp
     ) { innerPadding ->
 
         LazyColumn(
@@ -622,107 +619,6 @@ private fun InformacionFila(
             fontSize = 13.sp
         )
     }
-}
-
-@Composable
-private fun BarraNavegacionInferior() {
-
-    NavigationBar(
-        containerColor = Color.White,
-        tonalElevation = 8.dp
-    ) {
-
-        ItemNavegacion(
-            simbolo = "⌂",
-            texto = "Inicio",
-            seleccionado = true
-        )
-
-        ItemNavegacion(
-            simbolo = "⌕",
-            texto = "Buscar",
-            seleccionado = false
-        )
-
-        ItemNavegacion(
-            simbolo = "+",
-            texto = "Reportar",
-            seleccionado = false,
-            destacado = true
-        )
-
-        ItemNavegacion(
-            simbolo = "◎",
-            texto = "Coincid.",
-            seleccionado = false
-        )
-
-        ItemNavegacion(
-            simbolo = "●",
-            texto = "Perfil",
-            seleccionado = false
-        )
-    }
-}
-
-@Composable
-private fun androidx.compose.foundation.layout.RowScope.ItemNavegacion(
-    simbolo: String,
-    texto: String,
-    seleccionado: Boolean,
-    destacado: Boolean = false
-) {
-
-    NavigationBarItem(
-        selected = seleccionado,
-        onClick = {},
-        icon = {
-
-            if (destacado) {
-
-                Box(
-                    modifier = Modifier
-                        .size(42.dp)
-                        .clip(CircleShape)
-                        .background(AzulPrincipal),
-                    contentAlignment = Alignment.Center
-                ) {
-
-                    Text(
-                        text = simbolo,
-                        color = Color.White,
-                        fontSize = 27.sp,
-                        fontWeight = FontWeight.Normal
-                    )
-                }
-
-            } else {
-
-                Text(
-                    text = simbolo,
-                    color = if (seleccionado) {
-                        AzulPrincipal
-                    } else {
-                        TextoSecundario
-                    },
-                    fontSize = 23.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-        },
-        label = {
-
-            Text(
-                text = texto,
-                fontSize = 10.sp,
-                color = if (seleccionado) {
-                    AzulPrincipal
-                } else {
-                    TextoSecundario
-                }
-            )
-        }
-    )
 }
 
 @Preview(
