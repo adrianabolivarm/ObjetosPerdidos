@@ -2,13 +2,15 @@ package com.upb.objetosperdidos.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.upb.objetosperdidos.data.local.EstudianteEntity
 import com.upb.objetosperdidos.data.repository.AuthRepository
+import com.upb.objetosperdidos.data.repository.EstudianteRepository
 import com.upb.objetosperdidos.model.Usuario
 import com.upb.objetosperdidos.util.Resultado
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,7 +22,8 @@ data class AuthUiState(
 )
 
 class AuthViewModel(
-    private val repository: AuthRepository = AuthRepository()
+    private val repository: AuthRepository = AuthRepository(),
+    private val estudianteRepository: EstudianteRepository? = null
 ) : ViewModel() {
 
     val usuarioActual: StateFlow<Usuario?> = repository.currentUserFlow
@@ -55,7 +58,13 @@ class AuthViewModel(
         }
     }
 
-    fun register(email: String, pass: String, nombre: String) {
+    fun register(
+        email: String,
+        pass: String,
+        nombre: String,
+        carrera: String = "Sistemas",
+        sede: String = "Cochabamba"
+    ) {
         if (email.isBlank() || pass.isBlank() || nombre.isBlank()) {
             _uiState.update { it.copy(errorMessage = "Por favor, completa todos los campos.") }
             return
@@ -69,6 +78,20 @@ class AuthViewModel(
             _uiState.update { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
             when (val resultado = repository.register(email.trim(), pass, nombre.trim())) {
                 is Resultado.Success -> {
+                    // Obtiene el UID asignado por Auth o usa el correo/nombre
+                    val uid = usuarioActual.value?.id ?: email.trim()
+
+                    // Guarda localmente en Room y sincroniza con SQLite Cloud
+                    val nuevoEstudiante = EstudianteEntity(
+                        uid = uid,
+                        nombre = nombre.trim(),
+                        correo = email.trim(),
+                        carrera = carrera,
+                        sede = sede,
+                        puntos = 0
+                    )
+                    estudianteRepository?.registrarEstudiante(nuevoEstudiante)
+
                     _uiState.update { it.copy(isLoading = false, successMessage = "¡Cuenta creada exitosamente!") }
                 }
                 is Resultado.Error -> {

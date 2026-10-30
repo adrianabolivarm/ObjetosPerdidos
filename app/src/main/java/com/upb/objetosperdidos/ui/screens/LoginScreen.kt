@@ -1,6 +1,5 @@
 package com.upb.objetosperdidos.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,7 +47,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.upb.objetosperdidos.data.local.AppDatabase
+import com.upb.objetosperdidos.data.remote.RetrofitClient
+import com.upb.objetosperdidos.data.repository.EstudianteRepository
 import com.upb.objetosperdidos.ui.viewmodel.AuthViewModel
+import com.upb.objetosperdidos.ui.viewmodel.AuthViewModelFactory
 
 private val PrimaryBlue = Color(0xFF1689FF)
 private val BackgroundColor = Color(0xFFF7F7FB)
@@ -64,9 +68,23 @@ enum class AuthMode {
 
 @Composable
 fun LoginScreen(
-    viewModel: AuthViewModel = viewModel(),
     onLoginSuccess: () -> Unit = {}
 ) {
+    // 1. Inicialización de dependencias para la base de datos local y remota
+    val context = LocalContext.current
+    val db = remember { AppDatabase.getDatabase(context) }
+    val estudianteRepository = remember {
+        EstudianteRepository(
+            estudianteDao = db.estudianteDao(),
+            sqliteCloudService = RetrofitClient.sqliteCloudApiService
+        )
+    }
+
+    // 2. Instanciación del AuthViewModel usando la fábrica con EstudianteRepository
+    val viewModel: AuthViewModel = viewModel(
+        factory = AuthViewModelFactory(estudianteRepository)
+    )
+
     val uiState by viewModel.uiState.collectAsState()
     val currentUser by viewModel.usuarioActual.collectAsState()
 
