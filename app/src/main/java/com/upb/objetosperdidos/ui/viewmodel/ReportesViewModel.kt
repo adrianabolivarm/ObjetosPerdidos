@@ -4,48 +4,70 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.upb.objetosperdidos.data.local.AppDatabase
+import com.upb.objetosperdidos.data.local.ObjetoEntity
+import com.upb.objetosperdidos.data.remote.RetrofitClients
 import com.upb.objetosperdidos.data.repository.ObjetoRepository
-import com.upb.objetosperdidos.model.ObjetoReportado
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ReportesViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository: ObjetoRepository
 
-    val objetos: StateFlow<List<ObjetoReportado>>
+    private val db = AppDatabase.obtener(application)
+    private val repository = ObjetoRepository(
+        objetoDao = db.objetoDao(),
+        sqliteCloudApi = RetrofitClients.sqliteCloudApi
+    )
 
-    init {
-        val objetoDao = AppDatabase.getDatabase(application).objetoDao()
-        repository = ObjetoRepository(objetoDao)
-        objetos = repository.todosLosObjetos.stateIn(
+    val objetos: StateFlow<List<ObjetoEntity>> = repository.observarObjetos()
+        .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
-    }
 
-    fun agregarObjeto(
-        nombre: String,
+    val todosLosObjetos = objetos
+
+    // Método Oficial
+    fun insertarObjeto(
+        titulo: String,
         descripcion: String,
-        categoria: String,
-        tipoReporte: String,
-        lugar: String,
-        fecha: String,
-        imagenRes: Int? = null
+        latitud: Double,
+        longitud: Double,
+        direccion: String,
+        urlImagen: String
     ) {
         viewModelScope.launch {
-            val nuevoObjeto = ObjetoReportado(
-                nombre = nombre,
-                descripcion = descripcion,
-                categoria = categoria,
-                tipoReporte = tipoReporte,
-                lugar = lugar,
-                fecha = fecha,
-                imagenRes = imagenRes
-            )
-            repository.insertarObjeto(nuevoObjeto)
+            repository.insertarObjeto(0, titulo, descripcion, latitud, longitud, direccion, urlImagen)
         }
+    }
+
+    // --- COMPATIBILIDAD CON LA PANTALLA ReportObjectScreen DE ADRI ---
+    // Atrapa cualquier parámetro que ella haya configurado en su formulario
+    fun agregarObjeto(
+        tipoReporte: String = "PERDIDO",
+        nombre: String = "",
+        categoria: String = "",
+        lugar: String = "",
+        fecha: String = "",
+        imagenRes: Int = 0,
+        titulo: String = "",
+        descripcion: String = "",
+        direccion: String = "",
+        urlImagen: String = ""
+    ) {
+        val finalTitulo = if (nombre.isNotEmpty()) nombre else titulo
+        val finalDesc = if (categoria.isNotEmpty()) categoria else descripcion
+        val finalDir = if (lugar.isNotEmpty()) lugar else direccion
+
+        insertarObjeto(
+            titulo = finalTitulo.ifEmpty { "Sin título" },
+            descripcion = finalDesc.ifEmpty { "Sin descripción" },
+            latitud = 0.0,
+            longitud = 0.0,
+            direccion = finalDir.ifEmpty { "Sin ubicación" },
+            urlImagen = urlImagen
+        )
     }
 }
