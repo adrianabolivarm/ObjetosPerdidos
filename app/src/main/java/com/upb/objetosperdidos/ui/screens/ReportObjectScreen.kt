@@ -39,9 +39,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.upb.objetosperdidos.ui.theme.ObjetosPerdidosTheme
 import com.upb.objetosperdidos.ui.viewmodel.ReportesViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 private val ReportBlue = Color(0xFF1689FF)
 private val ReportBlueSoft = Color(0xFFEAF4FF)
@@ -62,6 +62,7 @@ fun ReportObjectScreen(
     var descripcion by remember { mutableStateOf("") }
     var lugar by remember { mutableStateOf("") }
     var fecha by remember { mutableStateOf("30 / 09 / 2026") }
+    var opcionCustodia by remember { mutableStateOf("PERSONAL") }
 
     Scaffold(
         containerColor = ReportBackground
@@ -222,7 +223,10 @@ fun ReportObjectScreen(
 
                 Spacer(modifier = Modifier.height(13.dp))
 
-                CustodyOptions()
+                CustodyOptions(
+                    selectedOption = opcionCustodia,
+                    onOptionSelected = { opcionCustodia = it }
+                )
 
                 Spacer(modifier = Modifier.height(18.dp))
 
@@ -492,22 +496,27 @@ private fun PhotoOption(
 }
 
 @Composable
-private fun CustodyOptions() {
+private fun CustodyOptions(
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit
+) {
 
     Column(
         verticalArrangement = Arrangement.spacedBy(11.dp)
     ) {
 
         CustodyCard(
-            selected = true,
+            selected = selectedOption == "PERSONAL",
             title = "Lo tengo conmigo",
-            description = "Coordinaré la entrega directamente."
+            description = "Coordinaré la entrega directamente.",
+            onClick = { onOptionSelected("PERSONAL") }
         )
 
         CustodyCard(
-            selected = false,
+            selected = selectedOption == "OFICIAL",
             title = "Entregado en punto oficial",
-            description = "Biblioteca, Recepción o Seguridad."
+            description = "Biblioteca, Recepción o Seguridad.",
+            onClick = { onOptionSelected("OFICIAL") }
         )
     }
 }
@@ -516,11 +525,14 @@ private fun CustodyOptions() {
 private fun CustodyCard(
     selected: Boolean,
     title: String,
-    description: String
+    description: String,
+    onClick: () -> Unit
 ) {
 
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
