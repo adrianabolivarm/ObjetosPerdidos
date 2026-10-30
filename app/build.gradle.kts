@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp") // Aquí va sin 'apply false'
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -43,6 +44,13 @@ dependencies {
 
     // OkHttp para el envío de imágenes (MultipartBody)
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+
+    // Firebase BOM, Auth y Coroutines Play Services
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+    implementation("androidx.compose.material:material-icons-extended")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
