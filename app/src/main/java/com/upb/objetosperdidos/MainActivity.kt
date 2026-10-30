@@ -269,7 +269,10 @@ fun MainAppNavigator() {
     }
 }
 
-// Componente de la Barra de Navegación Inferior
+/**
+ * Barra de Navegación Inferior Unificada para toda la aplicación.
+ * Proporciona acceso rápido a los 5 módulos principales con diseño institucional UPB.
+ */
 @Composable
 private fun AppBottomNavigationBar(
     tabActivo: TabPrincipal,
@@ -278,7 +281,7 @@ private fun AppBottomNavigationBar(
 
     Surface(
         color = FondoBarra,
-        shadowElevation = 10.dp
+        shadowElevation = 12.dp
     ) {
 
         NavigationBar(
