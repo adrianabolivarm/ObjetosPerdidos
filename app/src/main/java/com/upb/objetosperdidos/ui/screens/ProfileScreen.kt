@@ -56,7 +56,8 @@ fun ProfileScreen(
     onMyReportsClick: () -> Unit = {},
     onMatchesClick: () -> Unit = {},
     onPointsBenefitsClick: () -> Unit = {},
-    onCustodianDashboardClick: () -> Unit = {}
+    onCustodianDashboardClick: () -> Unit = {},
+    onCerrarSesion: () -> Unit = {}
 ) {
 
     Scaffold(
@@ -166,7 +167,7 @@ fun ProfileScreen(
                 Spacer(modifier = Modifier.height(28.dp))
 
                 Button(
-                    onClick = {},
+                    onClick = onCerrarSesion,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(52.dp),

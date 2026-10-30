@@ -10,7 +10,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -188,6 +187,9 @@ fun MainAppNavigator() {
                             },
                             onCustodianDashboardClick = {
                                 subPantallaActiva = "PANEL_ENCARGADO"
+                            },
+                            onCerrarSesion = {
+                                tabActivo = TabPrincipal.HOME
                             }
                         )
                     }
@@ -269,10 +271,7 @@ fun MainAppNavigator() {
     }
 }
 
-/**
- * Barra de Navegación Inferior Unificada para toda la aplicación.
- * Proporciona acceso rápido a los 5 módulos principales con diseño institucional UPB.
- */
+// Componente de la Barra de Navegación Inferior
 @Composable
 private fun AppBottomNavigationBar(
     tabActivo: TabPrincipal,
